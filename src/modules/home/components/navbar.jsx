@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import React from 'react'
 import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from '@clerk/nextjs'
-import {Button } from '@components/ui/Button'
+import { Button } from '@/components/ui/button'
 
-const navbar = () => {
+const Navbar = () => {
   return (
     <nav className='p-4 bg-transparent fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b border-transparent '>
         <div className='max-w-5xl mx-auto w-full flex justify-between items-center'>
@@ -38,4 +38,4 @@ const navbar = () => {
   )
 }
 
-export default navbar
+export default Navbar
