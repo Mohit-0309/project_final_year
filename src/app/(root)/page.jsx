@@ -1,9 +1,18 @@
+import { Button } from '@/components/ui/button'
 import ProjectForm from '@/modules/home/components/project-form'
 import React from 'react'
 
 const page = () => {
+
+  const onInvoke = async() =>{
+    await inngest.send({
+      name: "agent/hello",
+    })
+  }
+
   return (
     <div className='flex items-center justify-center w-full px-4 py-8'>
+      
       <div className='max-w-5xl w-full'>
           <section className='space-y-8 flex flex-col items-center'>
             <div className='flex flex-col items-center'>
