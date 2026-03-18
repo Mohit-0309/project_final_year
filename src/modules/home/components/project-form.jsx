@@ -102,10 +102,11 @@ const ProjectForm = () => {
 
   //const isButtonDisabled = isPending || !form.watch("content").trim();
 
-  const onInvokeAI = async () => {
+  const onInvokeAI = async() => {
     try {
         const res = await onInvoke();
         console.log(res);
+        toast.success("Done");
     } catch (err) {
         console.log(err);
     }
@@ -165,7 +166,7 @@ const ProjectForm = () => {
             render={({ field }) => (
               <TextAreaAutosize
                 {...field}
-                disabled={isPending}
+                //disabled={isPending}
                 placeholder="Describe what you want to create..."
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
@@ -173,7 +174,7 @@ const ProjectForm = () => {
                 maxRows={8}
                 className={cn(
                   "pt-4 resize-none border-none w-full outline-none bg-transparent",
-                  isPending && "opacity-50"
+                  //isPending && "opacity-50"
                 )}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
@@ -194,16 +195,17 @@ const ProjectForm = () => {
             <Button
               className={cn(
                 "size-8 rounded-full",
-                isButtonDisabled && "bg-muted-foreground border"
+                //isButtonDisabled && "bg-muted-foreground border"
               )}
-              disabled={isButtonDisabled}
+              //disabled={isButtonDisabled}
               type="submit"
             >
-              {isPending ? (
+              {/* {isPending ? (
                 <Loader2Icon className="size-4 animate-spin" />
               ) : (
                 <ArrowUpIcon className="size-4" />
-              )}
+              )} */}
+              <ArrowUpIcon className="size-4" />
             </Button>
           </div>
         </form>
