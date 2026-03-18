@@ -1,11 +1,12 @@
 import { Button } from '@/components/ui/button'
 import ProjectForm from '@/modules/home/components/project-form'
+import { Inngest } from 'inngest'
 import React from 'react'
 
 const page = () => {
 
   const onInvoke = async() =>{
-    await inngest.send({
+    await Inngest.send({
       name: "agent/hello",
     })
   }
