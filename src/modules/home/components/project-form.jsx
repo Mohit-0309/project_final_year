@@ -6,13 +6,15 @@ import { ArrowUpIcon, Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useWatch } from "react-hook-form";
+import { Spinner } from "@/components/ui/spinner";
 import z from "zod";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
-//import { useCreateProject } from "@/modules/projects/hooks/project";
 import { onInvoke } from "../actions";
+import { useCreateProject } from "@/modules/projects/hooks/project";
 
 const formSchema = z.object({
   content: z
@@ -75,7 +77,7 @@ const PROJECT_TEMPLATES = [
 const ProjectForm = () => {
   const [isFocused, setIsFocused] = useState(false);
   const router = useRouter();
-  //const { mutateAsync, isPending } = useCreateProject();
+  const { mutateAsync, isPending } = useCreateProject();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -100,24 +102,16 @@ const ProjectForm = () => {
     }
   };
 
-  //const isButtonDisabled = isPending || !form.watch("content").trim();
-
-  const onInvokeAI = async() => {
-    try {
-        const res = await onInvoke();
-        console.log(res);
-        toast.success("Done");
-    } catch (err) {
-        console.log(err);
-    }
-  }
+  // const isButtonDisabled = isPending || !form.watch("content").trim();
+  const content = useWatch({
+    control: form.control,
+    name: "content",
+  });
+  const isButtonDisabled = isPending || !content?.trim();
   
   return (
     <div className="space-y-8">
-      {/* Templates Grid */}
-      <Button onClick={onInvokeAI} >
-        Invoke AI Agent
-      </Button>
+      {/* Templates Grid */} 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {PROJECT_TEMPLATES.map((template, index) => (
           <button
@@ -195,17 +189,15 @@ const ProjectForm = () => {
             <Button
               className={cn(
                 "size-8 rounded-full",
-                //isButtonDisabled && "bg-muted-foreground border"
+                isButtonDisabled && "bg-muted-foreground border"
               )}
-              //disabled={isButtonDisabled}
+              disabled={isButtonDisabled}
               type="submit"
             >
-              {/* {isPending ? (
-                <Loader2Icon className="size-4 animate-spin" />
-              ) : (
-                <ArrowUpIcon className="size-4" />
-              )} */}
-              <ArrowUpIcon className="size-4" />
+              {
+                isPending ? (<Spinner />) : (<ArrowUpIcon className="size-4" />)
+              }
+              
             </Button>
           </div>
         </form>
