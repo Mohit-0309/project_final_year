@@ -5,7 +5,7 @@ import { createProject, getProjectById, getProjects } from "../actions";
 export const useGetProjects = () => {
     return useQuery({
         queryKey: ["projects"],
-        queryFn: getProjects(),
+        queryFn: () => getProjects(),
     })
 }
 
