@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import ProjectForm from '@/modules/home/components/project-form'
+import ProjectList from '@/modules/home/components/project-list'
 import { Inngest } from 'inngest'
 import React from 'react'
 
@@ -30,6 +31,7 @@ const page = () => {
               {/*  ProjectsForm*/}
               <ProjectForm/>
             </div>
+            <ProjectList/>
           </section>
       </div>
     </div>
