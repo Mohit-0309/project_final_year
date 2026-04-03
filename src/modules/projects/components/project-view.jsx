@@ -7,8 +7,12 @@ import { useAuth } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import ProjectHeader from './project-header';
+import MessageContainer from './message-container';
 
 const ProjectView = ({projectId}) => {
+
+  const [activeFragment, setActiveFragment] = useState(null);
+
   return (
     <div className='h-screen'>
         <ResizablePanelGroup direction="horizontal">
@@ -20,6 +24,11 @@ const ProjectView = ({projectId}) => {
                 <ProjectHeader projectId={projectId}/>
 
                 {/* TODO Message Container */}
+                <MessageContainer
+                  projectId={projectId}
+                  activeFragment={activeFragment}
+                  setActiveFragment={setActiveFragment}
+                />
                 
 
             </ResizablePanel>

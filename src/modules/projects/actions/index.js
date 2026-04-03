@@ -1,6 +1,6 @@
 "use server";
 import { inngest } from "@/inngest/client";
-import { db } from "@/lib/db.js";
+import { db } from "@/lib/db";
 import { getCurrentUser } from "@/modules/auth/actions";
 import { MessageRole, MessageType } from "@prisma/client";
 import { generateSlug } from "random-word-slugs";
