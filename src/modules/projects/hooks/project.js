@@ -22,6 +22,6 @@ export const useCreateProject = () => {
 export const useGetProjectById = (projectId) => {
     return useQuery({
         queryKey: ["project", projectId],
-        queryFn: getProjectById(projectId),
+        queryFn: () => getProjectById(projectId),
     })
 }

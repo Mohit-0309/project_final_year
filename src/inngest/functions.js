@@ -8,7 +8,9 @@ import { db } from "@/lib/db";
 import { MessageRole, MessageType } from "@prisma/client";
 
 export const codeAgentFunction = inngest.createFunction(
-  { id: "code-agent" },
+  { id: "code-agent",
+    retries: 2,
+  },
   { event: "code-agent/run" },
   async ({ event, step }) => {
     
@@ -107,6 +109,7 @@ export const codeAgentFunction = inngest.createFunction(
               {
                 network.state.data.files = newFiles;
               }
+              return "files updated";
             }
           }),
 
@@ -154,7 +157,7 @@ export const codeAgentFunction = inngest.createFunction(
     const network = createNetwork({
       name: "coding-agent-network",
       agents: [codeAgent],
-      maxIter: 10,
+      maxIter: 2,
 
       router: async ({network}) => {
         const summary = network.state.data.summary;
@@ -168,7 +171,10 @@ export const codeAgentFunction = inngest.createFunction(
 
     const result = await network.run(event.data.value);
 
-    const isError = !result.state.data.summary || Object.keys(result.state.data.files || {}).length === 0;
+    // const isError = !result.state.data.summary || Object.keys(result.state.data.files || {}).length === 0;
+    const hasFiles = Object.keys(result.state.data.files || {}).length > 0;
+
+    const isError = !hasFiles;
 
     const sandboxUrl = await step.run("get-sandbox-url", async() => {
       const sandbox = await Sandbox.connect(sandboxId);
@@ -183,7 +189,7 @@ export const codeAgentFunction = inngest.createFunction(
             projectId: event.data.projectId,
             content: "Something went wrong. PLease try again",
             role: MessageRole.ASSISTANT,
-            type: MesssageType.ERROR,
+            type: MessageType.ERROR,
           }
         })
       }
